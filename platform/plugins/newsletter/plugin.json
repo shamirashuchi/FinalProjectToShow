@@ -1,0 +1,10 @@
+{
+    "id": "botble/newsletter",
+    "name": "Newsletter",
+    "namespace": "Botble\\Newsletter\\",
+    "provider": "Botble\\Newsletter\\Providers\\NewsletterServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.0",
+    "description": "Newsletter"
+}

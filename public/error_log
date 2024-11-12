@@ -1,0 +1,2 @@
+[01-Apr-2023 20:34:53 UTC] PHP Fatal error:  Cannot declare class App\Http\Controllers\Supervisor\DashboardController, because the name is already in use in /home/drchybsc/drchain.dev/app/Http/Controllers/DashboardController.php on line 0
+[03-Apr-2023 01:25:07 UTC] PHP Fatal error:  Cannot use Illuminate\Routing\Controller as Controller because the name is already in use in /home/drchybsc/drchain.dev/platform/plugins/job-board/src/Http/Controllers/Fronts/TestController.php on line 17

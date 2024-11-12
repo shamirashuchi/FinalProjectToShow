@@ -1,0 +1,10 @@
+{
+    "id": "botble/testimonial",
+    "name": "Testimonial",
+    "namespace": "Botble\\Testimonial\\",
+    "provider": "Botble\\Testimonial\\Providers\\TestimonialServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.1",
+    "description": "Customer testimonials"
+}

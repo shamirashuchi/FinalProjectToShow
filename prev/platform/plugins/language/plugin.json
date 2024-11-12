@@ -1,0 +1,10 @@
+{
+    "id": "botble/language",
+    "name": "Language",
+    "namespace": "Botble\\Language\\",
+    "provider": "Botble\\Language\\Providers\\LanguageServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.2.0",
+    "description": "Multi-language features."
+}

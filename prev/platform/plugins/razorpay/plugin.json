@@ -1,0 +1,11 @@
+{
+    "id": "botble/razorpay",
+    "name": "Razorpay Payment Gateway",
+    "namespace": "Botble\\Razorpay\\",
+    "provider": "Botble\\Razorpay\\Providers\\RazorpayServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "1.0",
+    "description": "Razorpay payment gateway integration",
+    "require": ["payment"]
+}

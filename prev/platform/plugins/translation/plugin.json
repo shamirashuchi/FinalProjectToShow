@@ -1,0 +1,10 @@
+{
+    "id": "botble/translation",
+    "name": "Translation",
+    "namespace": "Botble\\Translation\\",
+    "provider": "Botble\\Translation\\Providers\\TranslationServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.0",
+    "description": "Manage translation text"
+}

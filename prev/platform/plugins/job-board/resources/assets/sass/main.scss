@@ -1,0 +1,85 @@
+/* ========================
+INCLUDE STYLES AND COMPONENTS
+===================== */
+
+// 1. Abstracts
+@import
+  'abstracts/mixins',
+  'abstracts/variables';
+
+// 2. Base stuff
+@import
+  'base/helpers',
+  'base/typography';
+
+// 3. Components
+@import
+  'components/navigation',
+  'components/buttons',
+  'components/forms',
+  'components/elements',
+  'components/items',
+  'components/lists';
+
+// 4. Layout
+@import
+'layout/spacing',
+'layout/layout',
+'layout/layout-dark',
+'layout/responsive';
+
+/* ========================
+CUSTOM
+===================== */
+
+small.charcounter {
+  padding-left: inherit;
+  padding-right: inherit;
+  font-size: .7rem;
+  top: 17px;
+  color: #77797d;
+}
+
+.form-group {
+  .control-label {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+  }
+}
+
+#sample-permalink {
+    vertical-align: top;
+}
+
+small.charcounter {
+    top: 10px;
+}
+
+#main {
+    .btn {
+        i {
+            vertical-align: top;
+            margin-top: 2px;
+        }
+    }
+
+    form {
+        .btn {
+            i {
+                margin-top: 4px;
+            }
+        }
+    }
+}
+
+.wrapper-action {
+    .btn {
+        &.btn-secondary {
+            &.dropdown-toggle {
+                padding-right: 20px;
+            }
+        }
+    }
+}

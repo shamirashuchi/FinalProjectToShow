@@ -1,0 +1,11 @@
+{
+    "id": "botble/paystack",
+    "name": "Paystack Payment Gateway",
+    "namespace": "Botble\\Paystack\\",
+    "provider": "Botble\\Paystack\\Providers\\PaystackServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "1.0",
+    "description": "Paystack payment gateway integration",
+    "require": ["payment"]
+}

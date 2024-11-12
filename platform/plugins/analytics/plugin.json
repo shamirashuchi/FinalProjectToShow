@@ -1,0 +1,10 @@
+{
+    "id": "botble/analytics",
+    "name": "Analytics",
+    "namespace": "Botble\\Analytics\\",
+    "provider": "Botble\\Analytics\\Providers\\AnalyticsServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.0",
+    "description": "Tracking data from Google Analytics"
+}

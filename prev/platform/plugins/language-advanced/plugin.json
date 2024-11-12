@@ -1,0 +1,11 @@
+{
+    "id": "botble/language-advanced",
+    "name": "Language Advanced",
+    "namespace": "Botble\\LanguageAdvanced\\",
+    "provider": "Botble\\LanguageAdvanced\\Providers\\LanguageAdvancedServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "1.2.0",
+    "description": "Advanced Multi-language",
+    "require": ["language"]
+}

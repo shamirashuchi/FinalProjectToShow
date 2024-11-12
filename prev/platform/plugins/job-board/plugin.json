@@ -1,0 +1,9 @@
+{
+    "name": "Job Board",
+    "namespace": "Botble\\JobBoard\\",
+    "provider": "Botble\\JobBoard\\Providers\\JobBoardServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "1.0",
+    "description": "Job Board plugin"
+}

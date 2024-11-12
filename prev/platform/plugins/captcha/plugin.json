@@ -1,0 +1,10 @@
+{
+    "id": "botble/captcha",
+    "name": "Captcha",
+    "namespace": "Botble\\Captcha\\",
+    "provider": "Botble\\Captcha\\Providers\\CaptchaServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.0",
+    "description": "Captcha for higher security"
+}

@@ -1,0 +1,84 @@
+.control-label {
+    color: #A0ABB8;
+    font-weight: 500;
+    font-size: 14px !important;
+    line-height: 22px !important;
+}
+
+.input-group-text {
+    padding-right: 18px;
+
+    .btn:hover {
+        background-color: transparent;
+    }
+}
+
+.input-group {
+    .input-group-text {
+        padding-right: 18px;
+    }
+}
+
+label {
+    color: #A0ABB8;
+}
+
+.icon-edit:before {
+    content: '' !important;
+}
+
+input[type=text] {
+    height: 36px;
+}
+
+button.btn {
+    border-radius: 3px;
+}
+
+.main-form, #app-job-board, .widget.meta-boxes {
+    .form-group {
+        input.form-control {
+            height: 36px;
+        }
+
+        .input-group {
+            button.btn {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+
+        textarea.form-control {
+            height: auto;
+        }
+
+        button.btn {
+            height: 100%;
+        }
+    }
+}
+
+#app-job-board {
+    .input-group {
+        button.btn {
+            i {
+                left: 20px;
+                color: #fff;
+            }
+        }
+    }
+}
+
+.widget-body {
+    .tagify.form-control {
+        padding: 0;
+    }
+}
+
+div.dataTables_wrapper {
+    div.dataTables_filter {
+        input {
+            margin-left: 0!important;
+        }
+    }
+}

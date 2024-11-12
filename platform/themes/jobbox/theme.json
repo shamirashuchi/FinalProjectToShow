@@ -1,0 +1,8 @@
+{
+    "name": "ReadyForce",
+    "namespace": "Theme\\Jobbox\\",
+    "description": "Job Portal Platform",
+    "author": "DEVRES TECH LTD",
+    "version": "4.0",
+    "required_plugins": []
+}

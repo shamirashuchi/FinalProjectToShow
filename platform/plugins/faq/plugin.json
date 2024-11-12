@@ -1,0 +1,10 @@
+{
+    "id": "botble/faq",
+    "name": "FAQ",
+    "namespace": "Botble\\Faq\\",
+    "provider": "Botble\\Faq\\Providers\\FaqServiceProvider",
+    "author": "DEVRES TECH LTD",
+    "url": "https://devres.tech",
+    "version": "2.0",
+    "description": "Frequently Asked Question(s) FAQ"
+}

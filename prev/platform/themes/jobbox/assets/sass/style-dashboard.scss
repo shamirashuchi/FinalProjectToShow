@@ -1,0 +1,36 @@
+@import 'dashboard/scss/abstracts/variables';
+@import 'abstracts/mixins';
+
+@import 'vendors/vendors-import';
+
+// Base
+@import 'dashboard/scss/base/common';
+@import 'dashboard/scss/base/animation';
+@import 'dashboard/scss/base/typography';
+
+// Components
+@import 'components/buttons';
+@import 'dashboard/scss/components/card';
+@import 'components/tabs';
+@import 'components/circle-chart';
+@import 'components/slider';
+@import 'components/form';
+@import 'components/misc';
+
+@import 'dashboard/scss/layout/header';
+@import 'dashboard/scss/layout/navigation';
+@import 'dashboard/scss/layout/sidebar';
+@import 'dashboard/scss/layout/footer';
+@import 'dashboard/scss/layout/spacing';
+
+// Page-specific styles
+@import 'pages/pages';
+@import 'pages/profile';
+@import 'pages/post-job';
+@import 'pages/my-resume';
+@import 'pages/dashboard-home';
+
+// Responsive
+@import 'dashboard/scss/layout/responsive';
+@import 'custom-dashboard';
+@import 'custom-form-job';
