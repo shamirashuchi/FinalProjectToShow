@@ -32,9 +32,14 @@
                 @endforeach
 
                 <!-- Book Appointment Button -->
-                <button id="book-appointment-btn" class="btn btn-secondary m-1"  disabled>
-                    Book Appointment
+                 
+                <button id="book-appointment-btn" class="btn btn-secondary m-1"
+                @if($jobseekerdetails->credits < 1) disabled @endif>
+                    Book Appointment{{$jobseekerdetails->credits}}
                 </button>
+
+
+
 
                 <!-- <div>
                     <h6 class="btn rounded-pill fw-bold text-white mt-20 mb-10 px-4 py-2" style="background: rgba(5, 38, 78, 1);">
@@ -49,6 +54,10 @@
         <div class="col-md-9">
             <div>
                 <h2>Consultant Profile</h2>
+                @foreach ($consultantdetails->consultantPackages as $pack)
+                {{$pack->is_booked}}
+                ${{ $pack->credits }}
+                @endforeach
                 <hr>
                 <p class="mt-6 fw-bold">Introduction</p>
                 <p style="text-align: justify;">{{ $consultantdetails->description }}</p>
@@ -567,9 +576,15 @@ document.querySelectorAll('.event-button').forEach(button => {
             delete bookButton.dataset.eventId;
             delete bookButton.dataset.eventDate;
         } else {
-            // Select the button and enable Book Appointment button
+            if ({{ $jobseekerdetails->credits }} < 1) {
+            // Show alert if insufficient balance
+            alert('Insufficient balance');
+            return;
+            }
+            else{
             this.classList.add('btn-warning');
             this.classList.remove('btn-primary');
+            // Select the button and enable Book Appointment button
             
             // Enable the Book Appointment button and update its appearance
             const bookButton = document.getElementById('book-appointment-btn');
@@ -584,6 +599,9 @@ document.querySelectorAll('.event-button').forEach(button => {
             // Store the selected event's data (e.g., event id and date)
             bookButton.dataset.eventId = this.dataset.id;
             bookButton.dataset.eventDate = this.dataset.date;
+            console.log('Event ID:', bookButton.dataset.eventId);
+            console.log('Event Date:', bookButton.dataset.eventDate);
+            }
         }
     });
 });

@@ -86,6 +86,7 @@ Route::group([
 Route::middleware(['web'])->group(function () {
     Route::get('consultants', [PublicController::class, 'consultants'])->name('consultants');
     Route::get('consultantdetails/{id}', [PublicController::class, 'consultantdetails'])->name('consultantdetails');
+    Route::post('appointment', [PublicController::class, 'appointment'])->name('appointment');
     Route::get('consultantdetails/{id}/meeting', [PublicController::class, 'consultantmeeting'])->name('consultantmeeting');
     Route::get('videos', [PublicController::class, 'videos'])->name('videos');
     Route::get('getTheToken', [AgoraController::class, 'getTheToken'])->name('getToken');

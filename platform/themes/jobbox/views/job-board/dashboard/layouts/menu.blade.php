@@ -649,8 +649,166 @@
 
 
 </style>
-@endif
 
+$currentRouteName = Route::currentRouteName();
+@endphp
+@elseif($type == 'superadmin')
+
+<style>
+       .main-menu li a {
+    color: #66789c;
+    display: block;
+    font-family: var(--primary-font), sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 15px 25px;
+    position: relative;
+    text-decoration: none;
+}
+.main-menu li a.active{
+    background-color: #fff !important;
+    border-radius: 8px;
+    color: rgb(5, 38, 78) !important;
+}
+    .main-menu li a:hover{
+    background-color: #fff !important;
+    border-radius: 8px;
+    color: rgb(69, 125, 194) !important;
+}
+
+    .main-menu li a.active span {
+    color: rgb(69, 125, 194) !important;
+}
+    .main-menu li a:hover span{
+    color: rgb(69, 125, 194) !important;
+}
+.main-menu li a img{
+    display: inline-block;
+    vertical-align: middle;
+}
+.main-menu li a.active img{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    filter: none !important;
+}
+
+.main-menu li a:hover img{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    filter: none !important;
+}
+
+.dropdown.active .dropdown-menu,
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+
+
+</style>
+    @php
+
+        $menus = collect([
+            [
+                'key' => 'public.account.consultanthome',
+                'icon' => 'imgs/page/dashboard/dashboard.svg',
+                'active_icon' => 'imgs/page/dashboard/dashboard3-active.svg',
+                'name' => 'Dashboard',
+                'routes' => ['public.account.consultanthome'],
+                'order' => 1,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.settings',
+                'icon' => 'imgs/page/dashboard/profile.svg',
+                'active_icon' => 'imgs/page/dashboard/profile3-active.svg',
+                'name' => 'My Profile',
+                'routes' => ['public.account.settings'],
+                'order' => 2,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.test',
+                'icon' => 'imgs/page/dashboard/verified.svg',
+                'active_icon' => 'imgs/page/dashboard/verified3-active.svg',
+                'name' => 'Get Verified',
+                'order' => 3,
+                'enabled' => true,
+                'routes' => ['public.account.test'],
+            ],
+            [
+                'key' => 'public.account.packages',
+                'icon' => 'imgs/page/dashboard/packages.svg',
+                'active_icon' => 'imgs/page/dashboard/packages3-active.svg',
+                'name' => 'Package',
+                // 'routes' => ['public.account.consultant-packages.index', 'public.account.consultant-packages.create'],
+                'order' => 4,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.invoices.index',
+                'icon' => 'imgs/page/dashboard/invoice.svg',
+                'active_icon' => 'imgs/page/dashboard/invoice3_active.svg',
+                'name' => __('Invoices'),
+                'order' => 5,
+                'enabled' => true,
+                'routes' => ['public.account.invoices.show'],
+            ],
+            [
+                'key' => 'public.account.security',
+                'icon' => 'imgs/page/dashboard/settings.svg',
+                'active_icon' => 'imgs/page/dashboard/settings3_active.svg',
+                'name' => 'Security',
+                'order' => 6,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.shedule',
+                'icon' => 'imgs/page/dashboard/tasks.svg',
+                'active_icon' => 'imgs/page/dashboard/tasks-active.svg',
+                'name' => 'Shedule',
+                'order' => 7,
+                'enabled' => true,
+                'routes' => ['public.account.meets.create'],
+            ],
+            [
+                'key' => 'public.account.index',
+                'icon' => 'imgs/page/dashboard/tasks.svg',
+                'active_icon' => 'imgs/page/dashboard/tasks-active.svg',
+                'name' => 'index',
+                'order' => 8,
+                'enabled' => true,
+                'routes' => ['public.account.meets.index'],
+            ],
+            [
+                'key' => 'public.index',
+                'icon' => 'imgs/page/dashboard/jobs.svg',
+                'active_icon' => 'imgs/page/dashboard/jobs3-active.svg',
+                'name' => 'Go Home',
+                'order' => 9,
+                'enabled' => true,
+                'routes' => ['public.index'],
+            ],
+
+            [
+                'key' => 'public.account.logout',
+                'icon' => 'imgs/page/dashboard/logout.svg',
+                'active_icon' => 'imgs/page/dashboard/logout6-active.svg',
+                'name' => __('Logout'),
+                'order' => 10,
+                'enabled' => true,
+                'routes' => ['public.account.logout'],
+            ],
+        ]);
+
+        $currentRouteName = Route::currentRouteName();
+    @endphp
+    @endif
 <nav class="nav-main-menu">
     <ul class="main-menu">
         @php

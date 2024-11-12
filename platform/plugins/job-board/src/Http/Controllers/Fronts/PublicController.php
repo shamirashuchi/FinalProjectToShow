@@ -923,11 +923,23 @@ class PublicController extends Controller
 
     public function consultantdetails(Request $request, $id)
     {
+        $auth = auth('account')->user()->id;
         $consultantdetails = Account::where(['type' => 'consultant', 'id' => $id])
             ->with(['consultantReviews.reviewer', 'consultantPackages' => function ($query) {
                 $query->where('status', 'published');
             }])->first();
 
+
+            // dd($auth);
+            $jobseekerdetails = Account::where([
+                'id' =>  $auth,
+            ])->first();
+        
+// dd($jobseekerdetails->credits);
+// $balance = DB::table('jb_transactions')
+//     ->where('account_id', $auth)
+//     ->sum('credits');
+// dd($balance);
         // If avatar exists, get the URL
         if ($consultantdetails && $consultantdetails->avatar_id) {
             $consultantdetails->avatar_url = RvMedia::url($consultantdetails->avatar_id);
@@ -941,8 +953,8 @@ class PublicController extends Controller
         return Theme::scope(
             'job-board.consultantdetails',
             ['consultantdetails' => $consultantdetails,
-            'events' => $event,],
-            ['auth' => auth()->user()],
+            'events' => $event,
+            'jobseekerdetails' => $jobseekerdetails],
             'plugins/job-board::themes.consultantdetails'
         )->render();
     }

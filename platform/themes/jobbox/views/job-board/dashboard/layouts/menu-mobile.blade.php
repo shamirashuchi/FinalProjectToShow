@@ -416,6 +416,85 @@
 
         $currentRouteName = Route::currentRouteName();
     @endphp
+    @elseif($type == 'superadmin')
+    @php
+
+        $menus = collect([
+            [
+                'key' => 'public.account.consultanthome',
+                'icon' => 'imgs/page/dashboard/dashboard.svg',
+                'name' => 'Dashboard',
+                'routes' => ['public.account.consultanthome'],
+                'order' => 1,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.settings',
+                'icon' => 'imgs/page/dashboard/profile.svg',
+                'active_icon' => 'imgs/page/dashboard/profile3-active.svg',
+                'name' => 'My Profile',
+                'routes' => ['public.account.settings'],
+                'order' => 2,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.test',
+                'icon' => 'imgs/page/dashboard/verified.svg',
+                'active_icon' => 'imgs/page/dashboard/verified3-active.svg',
+                'name' => 'Get Verified',
+                'order' => 3,
+                'enabled' => true,
+                'routes' => ['public.account.test'],
+            ],
+            [
+                'key' => 'public.account.packages',
+                'icon' => 'imgs/page/dashboard/packages.svg',
+                'active_icon' => 'imgs/page/dashboard/packages3-active.svg',
+                'name' => 'Package',
+                // 'routes' => ['public.account.consultant-packages.index', 'public.account.consultant-packages.create'],
+                'order' => 4,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.account.invoices.index',
+                'icon' => 'imgs/page/dashboard/invoice.svg',
+                'active_icon' => 'imgs/page/dashboard/invoice3_active.svg',
+                'name' => __('Invoices'),
+                'order' => 5,
+                'enabled' => true,
+                'routes' => ['public.account.invoices.show'],
+            ],
+            [
+                'key' => 'public.account.security',
+                'icon' => 'imgs/page/dashboard/settings.svg',
+                'active_icon' => 'imgs/page/dashboard/settings3_active.svg',
+                'name' => 'Security',
+                'order' => 6,
+                'enabled' => true,
+            ],
+            [
+                'key' => 'public.index',
+                'icon' => 'imgs/page/dashboard/jobs.svg',
+                'active_icon' => 'imgs/page/dashboard/jobs3-active.svg',
+                'name' => 'Go Home',
+                'order' => 7,
+                'enabled' => true,
+                'routes' => ['public.index'],
+            ],
+
+            [
+                'key' => 'public.account.logout',
+                'icon' => 'imgs/page/dashboard/logout.svg',
+                'active_icon' => 'imgs/page/dashboard/logout6-active.svg',
+                'name' => __('Logout'),
+                'order' => 8,
+                'enabled' => true,
+                'routes' => ['public.account.logout'],
+            ],
+        ]);
+
+        $currentRouteName = Route::currentRouteName();
+    @endphp
 @endif
 
 <div class="burger-icon burger-icon-white">
