@@ -960,6 +960,46 @@ class PublicController extends Controller
     }
 
 
+    
+    public function appointment(Request $request, $id)
+    {
+        // Retrieve the ID from the URL and the data sent via the request
+        $eventId = $id; // The ID from the URL
+        $eventDate = $request->input('event_date'); // The data from the request body
+
+        // Example: process the data (you can save it to the database or perform other actions)
+        // For instance, you can log the data for debugging
+        \Log::info('Appointment booked with ID: ' . $eventId . ' on ' . $eventDate);
+        $auth = auth('account')->user()->id;
+        $jobseekerdetails = Account::where([
+            'id' =>  $auth,
+        ])->first();
+        if ($jobseekerdetails && $jobseekerdetails->credits > 0) {
+            // Reduce the credit by 1
+            $jobseekerdetails->credits -= 1;
+        
+            // Save the updated account
+            $jobseekerdetails->save();
+            // DB::table('jb_transactions')->insert([
+            //     'account_id' => $auth,
+            //     'credits' => -1, // Indicating 1 credit is reduced
+            //     'description' => 'Credit deduction for appointment booking',
+            //     'type' => 'debit', // Transaction type (debit)
+            //     'payment_id' => null, // Assuming no payment ID for now
+            //     'user_id' => $auth,
+            //     'created_at' => now(), // Automatically set the current timestamp
+            //     'updated_at' => now(), // Automatically set the current timestamp
+            // ]);
+        }
+        // You can also return a response to the client
+        return response()->json([
+            'message' => 'Appointment booked successfully!',
+            'event_id' => $eventId,
+            'event_date' => $eventDate,
+        ]);
+    }
+
+
     public function consultantReviewed(Request $request, $id)
     {
         // Validate the input

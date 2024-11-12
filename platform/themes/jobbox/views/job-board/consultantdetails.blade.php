@@ -599,12 +599,43 @@ document.querySelectorAll('.event-button').forEach(button => {
             // Store the selected event's data (e.g., event id and date)
             bookButton.dataset.eventId = this.dataset.id;
             bookButton.dataset.eventDate = this.dataset.date;
-            console.log('Event ID:', bookButton.dataset.eventId);
-            console.log('Event Date:', bookButton.dataset.eventDate);
+         
             }
+            
         }
     });
 });
 
+const bookButton = document.getElementById('book-appointment-btn');
+    bookButton.addEventListener('click', function() {
+        if (!bookButton.disabled) {
+            bookButton.disabled = true;
+            const eventButton = document.querySelector(`[data-id="${bookButton.dataset.eventId}"]`);
+            if (eventButton) {
+                eventButton.classList.remove('btn-warning');
+                eventButton.classList.add('btn-primary');
+            }
+            fetch(`/appointment/${bookButton.dataset.eventId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token for security
+                },
+                body: JSON.stringify({
+                    event_date: bookButton.dataset.eventDate, // Only send the event_date in the body
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle success (you can display a success message here)
+                console.log('Success:', data);
+                alert('Appointment booked successfully!');
+            })
+            .catch((error) => {
+                // Handle error
+                console.error('Error:', error);
+            });
+        }
+    });
 
 </script>
