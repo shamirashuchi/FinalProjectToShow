@@ -576,7 +576,7 @@ document.querySelectorAll('.event-button').forEach(button => {
             delete bookButton.dataset.eventId;
             delete bookButton.dataset.eventDate;
         } else {
-            if ({{ $jobseekerdetails->credits }} < 1) {
+            if ({{ $jobseekerdetails->credits }} > 1) {
             // Show alert if insufficient balance
             alert('Insufficient balance');
             return;

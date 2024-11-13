@@ -991,11 +991,28 @@ class PublicController extends Controller
             //     'updated_at' => now(), // Automatically set the current timestamp
             // ]);
         }
+
+
+        $event = Event::where('id',  $eventId)->get();
+        $eventnew = $event[0];
+        $superadmindetails = Account::where([
+            'type' =>  'superadmin',
+            'first_name' => 'Ali'
+        ])->first();
+        if($eventnew){
+                 $eventnew->superadmin_id = $superadmindetails->id;
+                 $eventnew->user_id = $auth;
+                 $eventnew->save();
+        }
+        
+        // dd($event);
         // You can also return a response to the client
         return response()->json([
             'message' => 'Appointment booked successfully!',
             'event_id' => $eventId,
             'event_date' => $eventDate,
+            'event'  => $event[0],
+            'superadmindetails' => $superadmindetails,
         ]);
     }
 
