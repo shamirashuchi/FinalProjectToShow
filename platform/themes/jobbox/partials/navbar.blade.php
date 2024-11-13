@@ -83,15 +83,19 @@
 
 
                                         <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userdropdown">
-                                            @if ($account->type == "employer")
+                                            @if ($account->type == "superadmin")
+                                            <li><a class="dropdown-item" href="{{ route('public.account.dashboard') }}">{{ __('Admin Dashboard') }}</a></li>
+
+                                            @elseif ($account->type == "employer")
                                                 <li><a class="dropdown-item" href="{{ route('public.account.dashboard') }}">{{ __('Employer Dashboard') }}</a></li>
 
 
                                             @elseif ($account->type == "consultant")
                                                 <li><a class="dropdown-item" href="{{ route('public.account.consultanthome') }}">{{ __('Consultant Dashboard') }}</a></li>
 
-                                            @else
-                                                <li><a class="dropdown-item" href="{{ route('public.account.home') }}">{{ __('Dashboard') }}</a></li>
+                                                @elseif ($account->type == "job-seeker")
+                                                <li><a class="dropdown-item" href="{{ route('public.account.home') }}">{{ __('Jobseeker Dashboard') }}
+                                                </a></li>
                                                 {{-- <li><a class="dropdown-item" href="{{ route('public.account.jobs.saved') }}">{{ __('Saved Jobs') }}</a></li>
                                                 <li><a class="dropdown-item" href="{{ route('public.account.jobs.applied-jobs') }}">{{ __('Applied Jobs') }}</a></li> --}}
                                             @endif

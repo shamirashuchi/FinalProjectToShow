@@ -111,6 +111,38 @@ class AccountController extends Controller
         // Passing both $account and $resultArray to the view
         return JobBoardHelper::scope('account.home', compact('account', 'resultArray', 'activities'));
     }
+    public function getAdminhome()
+    {
+        $account = auth('account')->user();
+        
+        $selectedJobSkills = $account->favoriteSkills()->pluck('jb_job_skills.id')->all();
+
+        $selectedJobTags = $account->favoriteTags()->pluck('jb_tags.id')->all();
+
+
+        $accountId = $account['id'];
+
+        $favoriteSkills = DB::table('jb_account_favorite_skills')
+            ->where('account_id', $accountId)
+            ->pluck('skill_id')
+            ->toArray();
+
+        $queryResult = DB::table('jb_jobs')
+            ->select('jb_jobs.*', 'jb_companies.id AS company_id', 'jb_companies.name AS company_name', 'jb_companies.description AS company_description')
+            ->leftJoin('jb_companies', 'jb_jobs.company_id', '=', 'jb_companies.id')
+            ->join('jb_jobs_skills', 'jb_jobs.id', '=', 'jb_jobs_skills.job_id')
+            ->join('jb_job_skills', 'jb_jobs_skills.job_skill_id', '=', 'jb_job_skills.id')
+            ->whereIn('jb_job_skills.id', $favoriteSkills)
+            ->distinct() // Add the distinct method here
+            ->get();
+
+        $resultArray = $queryResult->toArray();
+
+        $activities = $this->activityLogRepository->getAllLogs($account->getAuthIdentifier());
+
+        // Passing both $account and $resultArray to the view
+        return JobBoardHelper::scope('account.adminhome', compact('account', 'resultArray', 'activities'));
+    }
 
     public function getShedule()
     {

@@ -15,7 +15,7 @@ class AccountTypeEnum extends Enum
     public const JOB_SEEKER = 'job-seeker';
     public const EMPLOYER = 'employer';
     public const CONSULTANT = 'consultant';
-    public const SUPER_ADMIN = 'super-admin';
+    public const SUPER_ADMIN = 'superadmin';
 
     public static $langPath = 'plugins/job-board::account.types';
 

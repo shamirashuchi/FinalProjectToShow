@@ -421,10 +421,11 @@
 
         $menus = collect([
             [
-                'key' => 'public.account.consultanthome',
+                'key' => 'public.account.adminhome',
                 'icon' => 'imgs/page/dashboard/dashboard.svg',
+                'active_icon' => 'imgs/page/dashboard/dashboard3-active.svg',
                 'name' => 'Dashboard',
-                'routes' => ['public.account.consultanthome'],
+                'routes' => ['public.account.adminhome'],
                 'order' => 1,
                 'enabled' => true,
             ],

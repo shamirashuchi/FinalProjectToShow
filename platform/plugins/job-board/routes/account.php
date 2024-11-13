@@ -143,6 +143,10 @@ Route::group(['namespace' => 'Botble\JobBoard\Http\Controllers', 'middleware' =>
                         'as' => 'consultanthome',
                         'uses' => 'getConsultanthome',
                     ]);
+                    Route::get('adminhome', [
+                        'as' => 'adminhome',
+                        'uses' => 'getAdminhome',
+                    ]);
                     Route::get('overview', [
                         'as' => 'overview',
                         'uses' => 'getOverview',

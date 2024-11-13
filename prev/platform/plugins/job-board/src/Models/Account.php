@@ -187,6 +187,7 @@ class Account extends BaseModel implements
     {
         return $this->type == AccountTypeEnum::JOB_SEEKER;
     }
+    
 
     public function companies(): BelongsToMany
     {
