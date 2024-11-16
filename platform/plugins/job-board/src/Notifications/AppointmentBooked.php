@@ -4,58 +4,49 @@ namespace Botble\JobBoard\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Botble\JobBoard\Models\SuperAdminNotification;
 
 class AppointmentBooked extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $type = 'Appointment successfully booked.';
+    protected $read_at;
+    protected $notifiable;
+    protected $eventId;
+    protected $eventDate;
+
+    const MESSAGE = 'Appointment successfully booked.';
+
+    public function __construct($type, $read_at, $notifiable, $eventId, $eventDate)
     {
-        //
+        $this->type = "unread";
+        $this->read_at = $read_at;
+        $this->notifiable = $notifiable;
+        $this->eventId = $eventId;
+        $this->eventDate = $eventDate;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
-            //
+            'type' => "unread",
+            'notifiable_id' => $this->notifiable,
+            'event_id' => $this->eventId,
+            'event_date' => $this->eventDate,
+            'message' => self::MESSAGE,
+            'read_at' => $this->read_at,
         ];
+    }
+
+    public function getNotificationModel()
+    {
+        return SuperAdminNotification::class;
     }
 }

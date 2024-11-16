@@ -43,8 +43,8 @@
             <td>{{ $event->id }}</td>
             <td>{{ $event->date}}</td>
             <td>{{ $event->day}}</td>
-            <td>{{ \Carbon\Carbon::parse($event->start_time)->format('h:i A') }}</td>
-            <td>{{ \Carbon\Carbon::parse($event->end_time)->format('h:i A') }}</td>
+            <td>{{ \Carbon\Carbon::parse($event->shedulestarttime)->format('h:i A') }}</td>
+            <td>{{ \Carbon\Carbon::parse($event->sheduleendtime)->format('h:i A') }}</td>
             <td>
                 <a href="{{ route('getToken')}}" class="btn btn-primary">
                     Join Meeting

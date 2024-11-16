@@ -1,143 +1,88 @@
 
-@extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
+<!-- @extends(JobBoardHelper::viewPath('dashboard.layouts.master')) -->
+<!-- <style>
+    .main {
+        margin-top: 54px !important;
+    }
+    
+    .btn-expanded {
+       
+        top: 0px !important;
 
+    }
+    
+    .nav-item {
+        max-width: 140px !important;
+
+    }
+    
+    
+    
+</style> -->
 @section('content')
-<!-- <div class="row">
-    <div class="col-lg-4">
-        <div class="card-style-1 hover-up">
-            <div class="card-image">
-            <img src="{{ Theme::asset()->url('imgs/page/dashboard/computer.svg') }}" alt="Total Jobs">
-            </div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($events as $event)
+        <tr>
+            <td>{{ $event->id }}</td>
+            <td>{{ $event->date}}</td>
+            <td>{{ $event->day}}</td>
+            <td>{{ \Carbon\Carbon::parse($event->shedulestarttime)->format('h:i A') }}</td>
+            <td>{{ \Carbon\Carbon::parse($event->sheduleendtime)->format('h:i A') }}</td>
+            <td>
+                <a href="#" 
+                   class="btn btn-primary approve-btn" 
+                   data-id="{{ $event->id }}">
+                    Approve
+                </a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+<form id="time-fields" action="" method="POST" style="display: none; margin-top: 10px;">
+    @csrf <!-- Add this for CSRF protection -->
 
-            <div class="card-info">
-                <div class="card-title">
-                    <h3>0
-                        <span class="font-sm">Applied Jobs</span>
-                    </h3>
-                </div>
-                <p class="color-text-paragraph-2">All status included</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="card-style-1 hover-up">
-            <div class="card-image">
-            <img src="{{ Theme::asset()->url('imgs/page/dashboard/computer.svg') }}" alt="Total Jobs">
-            </div>
+    <label for="start-time">Start Time:</label>
+    <input type="time" id="start-time" class="form-control" name="start_time" required>
 
-            <div class="card-info">
-                <div class="card-title">
-                    <h3>0
-                        <span class="font-sm">Saved Jobs</span>
-                    </h3>
-                </div>
-                <p class="color-text-paragraph-2">All status included</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="card-style-1 hover-up">
-            <div class="card-image">
-            <img src="{{ Theme::asset()->url('imgs/page/dashboard/computer.svg') }}" alt="Total Jobs">
-            </div>
+    <label for="end-time" style="margin-top: 10px;">End Time:</label>
+    <input type="time" id="end-time" class="form-control" name="end_time" required>
 
-            <div class="card-info">
-                <div class="card-title">
-                    <h3>0
-                        <span class="font-sm">Matched Jobs</span>
-                    </h3>
-                </div>
-                <p class="color-text-paragraph-2">All status included</p>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6">
-        <div class="panel-white">
-            <header class="panel-head">
-                <h5>New Jobs</h5>
-            </header>
-            <article class="panel-body">
-                <div class="new-member-list">
-                    <a href="{{ url('/jobs') }}" class="text-muted">0 new Jobs</a>
-                </div>
-            </article>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="panel-white">
-            <header class="panel-head">
-                <h5>Recent activities</h5>
-            </header>
-            <article class="panel-body">
-                <ul class="verti-timeline list-unstyled font-sm">
-                    @forelse ($activities as $activity)
-                        <li class="event-list">
-                            <div class="event-timeline-dot">
-                                <i class="fa-solid fa-clock"></i>
-                            </div>
-                            <div class="media">
-                                <div class="me-3">
-                                    <h6 class="text-nowrap">
-                                        <span>{{ $activity->created_at->diffForHumans() }} <i class="fa-solid fa-arrow-right-long icon-arrow"></i></span>
-                                    </h6>
-                                </div>
-                                <div class="media-body">
-                                    <div>{!! BaseHelper::clean($activity->getDescription(false)) !!}</div>
-                                </div>
-                            </div>
-                        </li>
-                    @empty
-                        <li>
-                            <a href="{{ route('public.account.jobseekermatch') }}" class="text-muted">{{ __('0 matched profile') }}</a>
-                        </li>
-                    @endforelse
-                </ul>
-            </article>
-        </div>
-    </div>
-</div>
-<div class="panel-white">
-    <header class="panel-head">
-        <h4>Matched Jobs</h4>
-    </header>
-    <div class="panel-body">
-        <div class="table-responsive">
-            <table class="table align-middle table-nowrap mb-0">
+    <button type="submit" class="btn btn-success" style="margin-top: 10px;">
+        Submit
+    </button>
+</form>
 
-                <thead class="table-light">
-                    <tr>
-                        <th class="align-middle" scope="col">Job Title</th>
-                        <th class="align-middle" scope="col">Company Name</th>
-                        <th class="align-middle" scope="col">Job Description</th>
-                        <th class="align-middle" scope="col">Salary</th>
-                        <th class="align-middle" scope="col">Range</th>
-                        <th class="align-middle" scope="col">Expire Date</th>
-                        <th class="align-middle" scope="col">Apply</th>
-                    </tr>
-                </thead>
+<script>
+    document.querySelectorAll('.approve-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
 
-                <tbody>
-                    @foreach ($resultArray as $row)
-                        <tr>
-                            <td class="fw-bold">{{ $row->name }}</td>
-                            <td>{{ $row->company_name }}</td>
-                            <td>{{ $row->description }}</td>
-                            <td>{{ $row->salary_from }}</td>
-                            <td>{{ $row->salary_range }}</td>
-                            <td>{{ $row->expire_date }}</td>
-                            <td>
-                                <a target="_blank" href="{{ url('jobs/' . Str::slug($row->name, '-')) }}"
-                                    class="btn btn-primary">Apply</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
+            const eventId = this.getAttribute('data-id'); // Get the event ID from data-id attribute
+            const form = document.getElementById('time-fields');
 
-            </table>
-        </div>
-    </div>
-</div> -->
-<p>hello</p>
+            // Update the form's action URL with the event ID
+            form.action = `submitTimes/${eventId}`;
+            
+            // Display the form
+            form.style.display = 'block';
+        });
+    });
+</script>
+
 @endsection
+
+
+
+

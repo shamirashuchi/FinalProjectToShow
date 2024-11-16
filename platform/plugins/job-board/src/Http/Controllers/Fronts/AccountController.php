@@ -20,6 +20,7 @@ use Botble\JobBoard\Repositories\Interfaces\AccountInterface;
 use Botble\JobBoard\Repositories\Interfaces\JobInterface;
 use Botble\Media\Repositories\Interfaces\MediaFileInterface;
 use Botble\Media\Services\ThumbnailService;
+use Illuminate\Support\Str;
 use Exception;
 use File;
 use Hash;
@@ -114,7 +115,7 @@ class AccountController extends Controller
     public function getAdminhome()
     {
         $account = auth('account')->user();
-        
+        // dd($account->id);
         $selectedJobSkills = $account->favoriteSkills()->pluck('jb_job_skills.id')->all();
 
         $selectedJobTags = $account->favoriteTags()->pluck('jb_tags.id')->all();
@@ -135,14 +136,71 @@ class AccountController extends Controller
             ->whereIn('jb_job_skills.id', $favoriteSkills)
             ->distinct() // Add the distinct method here
             ->get();
-
+            $events = Event::where('superadmin_id', $account->id)
+            ->get();
+           
         $resultArray = $queryResult->toArray();
 
         $activities = $this->activityLogRepository->getAllLogs($account->getAuthIdentifier());
 
         // Passing both $account and $resultArray to the view
-        return JobBoardHelper::scope('account.adminhome', compact('account', 'resultArray', 'activities'));
+        return JobBoardHelper::scope('account.adminhome', compact('account', 'resultArray', 'activities','events'));
+        // return redirect()->route('public.account.adminhome', [
+        //     'account' => $account,
+        //     'resultArray' => $resultArray,
+        //     'activities' => $activities,
+        //     'events' => $events,
+        // ]);
+        
     }
+
+
+    public function submitTimes(Request $request, $id)
+    {
+        $account = auth('account')->user();
+    
+        // Validate the incoming request data
+        $request->validate([
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+        ]);
+    
+        // Find the event by ID and ensure it belongs to the authenticated superadmin
+        $event = Event::where('id', $id)
+            ->where('superadmin_id', $account->id)
+            ->first();
+    
+        // Check if the event exists
+        if (!$event) {
+            return back()->with('error', 'Event not found or you do not have permission to update it.');
+        }
+   
+        $event->shedulestarttime = $request->input('start_time');  // Set the shedulestarttime column
+    $event->sheduleendtime = $request->input('end_time');
+    $randomChannelName = Str::random(10);  // Random 10-character string
+
+// Check if the generated channel name already exists
+if (Event::where('channelname', $randomChannelName)->exists()) {
+    // If it exists, generate a new random channel name
+    do {
+        $randomChannelName = Str::random(10);  // Regenerate the channel name
+    } while (Event::where('channelname', $randomChannelName)->exists());  // Continue until unique
+}
+
+// Set the unique channel name
+$event->channelname = $randomChannelName;
+$event->save();
+
+
+
+
+
+$events = Event::where('superadmin_id', $account->id)
+->get();
+        // Redirect back with a success message
+        return JobBoardHelper::scope('account.adminhome', compact('events'));
+    }
+    
 
     public function getShedule()
     {
@@ -202,9 +260,11 @@ class AccountController extends Controller
             ->get();
             $account = auth('account')->user();
 
-            // Retrieve the event date (and other data) from the events table
             $events = Event::where('consultant_id', $account->id)
-                              ->get();// This will fetch the most r
+               ->whereNotNull('channelname')
+               ->get();
+
+
         $resultArray = $queryResult->toArray();
 
         $activities = $this->activityLogRepository->getAllLogs($account->getAuthIdentifier());

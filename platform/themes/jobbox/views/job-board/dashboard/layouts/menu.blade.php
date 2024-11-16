@@ -470,44 +470,8 @@
                         'name' => 'Get Verified',
                         'order' => 3,
                         'enabled' => true,
-                    ],
+            ],
 
-            // [
-            //     'key' => 'public.account.employer',
-            //     'icon' => 'imgs/page/dashboard/jobs.svg',
-            //     'active_icon' => 'imgs/page/dashboard/jobs_active.svg',
-            //     'name' => __('Jobs'),
-            //     'order' => 3,
-            //     'enabled' => true,
-            //     'submenus' => [
-            //         [
-            //             'key' => 'public.account.jobs.saved',
-            //             'icon' => 'imgs/page/dashboard/jobs.svg',
-            //             'active_icon' => 'imgs/page/dashboard/jobs_active.svg',
-            //             'name' => 'Saved Jobs',
-            //             'order' => 1,
-            //             'enabled' => true,
-            //         ],
-            //         [
-            //             'key' => 'public.account.jobs.applied-jobs',
-            //             'icon' => 'imgs/page/dashboard/jobs.svg',
-            //             'active_icon' => 'imgs/page/dashboard/jobs_active.svg',
-            //             'name' => 'Applied Jobs',
-            //             'order' => 2,
-            //             'enabled' => true,
-            //         ],
-            //         [
-            //             'key' => 'public.account.jobmatch',
-            //             'icon' => 'imgs/page/dashboard/jobs.svg',
-            //             'active_icon' => 'imgs/page/dashboard/jobs_active.svg',
-            //             'name' => 'Matched Jobs',
-            //             'order' => 3,
-            //             'enabled' => true,
-            //         ],
-
-            //         // Add more submenu items here
-            //     ],
-            // ],
 
             [
                 'key' => 'public.account.packages',
@@ -527,9 +491,6 @@
                 'enabled' => true,
                 'routes' => ['public.account.invoices.show'],
             ],
-
-
-            // adding Settings
             [
                 'key' => 'public.account.security',
                 'icon' => 'imgs/page/dashboard/settings.svg',
@@ -538,33 +499,7 @@
                 'order' => 6,
                 'enabled' => true,
             ],
-            // [
-            //     'key' => 'public.account.employer',
-            //     'icon' => 'imgs/page/dashboard/settings.svg',
-            //     'active_icon' => 'imgs/page/dashboard/settings_active.svg',
-            //     'name' => __('Settings'),
-            //     'order' => 6,
-            //     'enabled' => true,
-            //     'routes' => ['public.account.settings'],
-            //     'submenus' => [
-            //         [
-            //             'key' => 'public.account.security',
-            //             'icon' => 'imgs/page/dashboard/settings.svg',
-            //             'active_icon' => 'imgs/page/dashboard/settings_active.svg',
-            //             'name' => 'Security',
-            //             'order' => 1,
-            //             'enabled' => true,
-            //         ],
-            //         [
-            //             'key' => 'public.account.settings',
-            //             'icon' => 'imgs/page/dashboard/settings.svg',
-            //             'active_icon' => 'imgs/page/dashboard/settings_active.svg',
-            //             'name' => 'Overview',
-            //             'order' => 2,
-            //             'enabled' => true,
-            //         ],
-            // ],
-            // ],
+
 
             [
                 'key' => 'public.index',

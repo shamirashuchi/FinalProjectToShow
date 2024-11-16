@@ -59,7 +59,7 @@ use Botble\JobBoard\Repositories\Interfaces\AnalyticsInterface;
 use Botble\Media\Repositories\Interfaces\MediaSettingInterface;
 use Botble\JobBoard\Repositories\Interfaces\JobExperienceInterface;
 use Botble\JobBoard\Repositories\Interfaces\JobApplicationInterface;
-
+use Botble\JobBoard\Notifications\AppointmentBooked;
 
 
 class PublicController extends Controller
@@ -963,47 +963,48 @@ class PublicController extends Controller
     
     public function appointment(Request $request, $id)
     {
-        // Retrieve the ID from the URL and the data sent via the request
-        $eventId = $id; // The ID from the URL
-        $eventDate = $request->input('event_date'); // The data from the request body
-
-        // Example: process the data (you can save it to the database or perform other actions)
-        // For instance, you can log the data for debugging
-        \Log::info('Appointment booked with ID: ' . $eventId . ' on ' . $eventDate);
+      
+        $eventId = $id;
+        $eventDate = $request->input('event_date');
         $auth = auth('account')->user()->id;
         $jobseekerdetails = Account::where([
             'id' =>  $auth,
         ])->first();
         if ($jobseekerdetails && $jobseekerdetails->credits > 0) {
-            // Reduce the credit by 1
+        
             $jobseekerdetails->credits -= 1;
         
-            // Save the updated account
+            
             $jobseekerdetails->save();
-            // DB::table('jb_transactions')->insert([
-            //     'account_id' => $auth,
-            //     'credits' => -1, // Indicating 1 credit is reduced
-            //     'description' => 'Credit deduction for appointment booking',
-            //     'type' => 'debit', // Transaction type (debit)
-            //     'payment_id' => null, // Assuming no payment ID for now
-            //     'user_id' => $auth,
-            //     'created_at' => now(), // Automatically set the current timestamp
-            //     'updated_at' => now(), // Automatically set the current timestamp
-            // ]);
+            
         }
 
 
-        $event = Event::where('id',  $eventId)->get();
-        $eventnew = $event[0];
+        $event = Event::where('id',  $eventId)->first();
+        // dd($event);
         $superadmindetails = Account::where([
             'type' =>  'superadmin',
             'first_name' => 'Ali'
         ])->first();
-        if($eventnew){
-                 $eventnew->superadmin_id = $superadmindetails->id;
-                 $eventnew->user_id = $auth;
-                 $eventnew->save();
+
+        if($event && $superadmindetails){
+                 $event->superadmin_id = $superadmindetails->id;
+                 $event->user_id = $auth;
+                 $event->save();
+                 $type = 'appointment_booked';  // or the specific type you want to use
+    $readAt = null;                // or a specific timestamp if needed
+    $notifiableId = $superadmindetails->id; // Use the actual superadmin ID
+    $eventId = $event->id;        // Replace with the actual event ID
+    $eventDate = $event->date;    // Replace with the actual event date
+
+    // Instantiate the notification with all required parameters
+    $notification = new AppointmentBooked($type, $readAt, $notifiableId, $eventId, $eventDate);
+
+    // Send the notification
+    $superadmindetails->notify($notification);
+
         }
+        
         
         // dd($event);
         // You can also return a response to the client
@@ -1011,7 +1012,7 @@ class PublicController extends Controller
             'message' => 'Appointment booked successfully!',
             'event_id' => $eventId,
             'event_date' => $eventDate,
-            'event'  => $event[0],
+            'event'  => $event,
             'superadmindetails' => $superadmindetails,
         ]);
     }

@@ -3,6 +3,7 @@
 namespace Botble\JobBoard\Models;
 
 use Botble\JobBoard\Models\ConsultantReview;
+use Botble\JobBoard\Models\SuperAdminNotification;
 use Botble\Base\Models\BaseModel;
 use Botble\Base\Supports\Avatar;
 use Botble\JobBoard\Enums\AccountTypeEnum;
@@ -85,7 +86,13 @@ class Account extends BaseModel implements
         'type' => AccountTypeEnum::class,
         'dob' => 'datetime',
     ];
+   
+    public function notifications()
+    {
+        return $this->hasMany(SuperAdminNotification::class, 'notifiable');
+    }
 
+    
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));

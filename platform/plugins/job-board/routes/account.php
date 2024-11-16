@@ -147,6 +147,10 @@ Route::group(['namespace' => 'Botble\JobBoard\Http\Controllers', 'middleware' =>
                         'as' => 'adminhome',
                         'uses' => 'getAdminhome',
                     ]);
+                    Route::post('submitTimes/{id}', [
+                        'as' => 'submitTimes',
+                        'uses' => 'submitTimes',
+                    ]);
                     Route::get('overview', [
                         'as' => 'overview',
                         'uses' => 'getOverview',
@@ -174,6 +178,7 @@ Route::group(['namespace' => 'Botble\JobBoard\Http\Controllers', 'middleware' =>
                         'as' => 'updatesettingsconsultant',
                         'uses' => 'updatesettingsConsultant',
                     ]);
+                    
 
                     Route::get('headersetting', [
                         'as' => 'headersetting',
@@ -313,6 +318,7 @@ Route::group(['namespace' => 'Botble\JobBoard\Http\Controllers', 'middleware' =>
                 Route::post('paytoseedetails', 'JobSeekerMatchController@paytoseedetails')->name('paytoseedetails');
                 // new
 
+                // Route::post('/submit-times/{id}', 'AccountController@submitTimes')->name('submit.times');
 
 
 
