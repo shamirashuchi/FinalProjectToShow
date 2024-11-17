@@ -22,10 +22,38 @@
 
     }
     
-    
+    #current-date {
+        display: none;
+    }
+
+    /* Hide the Join Meeting button by default */
+    .join-meeting-btn {
+        display: none;
+    }
     
 </style>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the content of the 'current-date' and 'event-date' cells
+        const currentDate = document.getElementById('current-date').textContent.trim();
+        const eventDate = document.getElementById('event-date').textContent.trim();
+        
+        // Get the Join Meeting button
+        const joinMeetingButton = document.getElementById('join-meeting-btn');
+
+        // Compare the dates
+        if (currentDate === eventDate) {
+            console.log("The dates match!");
+            // Show the Join Meeting button if dates match
+            joinMeetingButton.style.display = 'inline-block';
+        } else {
+            console.log("The dates don't match.");
+            // Optionally hide the button if dates don't match
+            joinMeetingButton.style.display = 'none';
+        }
+    });
+</script>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -41,12 +69,13 @@
         @foreach ($events as $event)
         <tr>
             <td>{{ $event->id }}</td>
-            <td>{{ $event->date}}</td>
+            <td id="event-date">{{ $event->date}}</td>
             <td>{{ $event->day}}</td>
             <td>{{ \Carbon\Carbon::parse($event->shedulestarttime)->format('h:i A') }}</td>
             <td>{{ \Carbon\Carbon::parse($event->sheduleendtime)->format('h:i A') }}</td>
+            <td id="current-date">{{ now()->format('Y-m-d') }}</td>
             <td>
-                <a href="{{ route('getToken')}}" class="btn btn-primary">
+                <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}" class="btn btn-primary" id="join-meeting-btn">
                     Join Meeting
                 </a>
                 
@@ -56,31 +85,7 @@
     </tbody>
 </table>
 
-<!-- <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Select all elements with the 'join-meeting' class and add click event listeners
-        document.querySelectorAll('.join-meeting').forEach(function(button) {
-            button.addEventListener('click', function() {
-                // Use Fetch API to make an AJAX request
-                fetch("{{ route('getToken') }}") // Add the missing closing quote
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.token) {
-                            console.log("AJAX request succeeded.");
-                            window.location.href = "http://127.0.0.1:8000/account/index";
-                            alert("Token received: " + data.token);
-                        } else {
-                            alert("Failed to get token. Please try again.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching token:", error);
-                        alert("Failed to get token. Please try again.");
-                    });
-            });
-        });
-    });
-</script> -->
+
 
 
 

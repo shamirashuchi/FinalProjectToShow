@@ -37,6 +37,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "predis/predis": "^2.0",
         "realrashid/sweet-alert": "^7.2",
+        "taylanunutmaz/agora-token-builder": "^1.1",
         "wikimedia/composer-merge-plugin": "^2.0",
         "yasserbelhimer/agora-access-token-generator": "^1.0"
     },

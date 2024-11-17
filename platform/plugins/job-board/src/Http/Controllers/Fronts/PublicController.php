@@ -991,19 +991,20 @@ class PublicController extends Controller
                  $event->superadmin_id = $superadmindetails->id;
                  $event->user_id = $auth;
                  $event->save();
-                 $type = 'appointment_booked';  // or the specific type you want to use
-    $readAt = null;                // or a specific timestamp if needed
-    $notifiableId = $superadmindetails->id; // Use the actual superadmin ID
-    $eventId = $event->id;        // Replace with the actual event ID
-    $eventDate = $event->date;    // Replace with the actual event date
-
-    // Instantiate the notification with all required parameters
-    $notification = new AppointmentBooked($type, $readAt, $notifiableId, $eventId, $eventDate);
-
-    // Send the notification
-    $superadmindetails->notify($notification);
-
         }
+    //              $type = 'appointment_booked';  // or the specific type you want to use
+    // $readAt = null;                // or a specific timestamp if needed
+    // $notifiableId = $superadmindetails->id; // Use the actual superadmin ID
+    // $eventId = $event->id;        // Replace with the actual event ID
+    // $eventDate = $event->date;    // Replace with the actual event date
+
+    // // Instantiate the notification with all required parameters
+    // $notification = new AppointmentBooked($type, $readAt, $notifiableId, $eventId, $eventDate);
+
+    // // Send the notification
+    // $superadmindetails->notify($notification);
+
+    //     }
         
         
         // dd($event);

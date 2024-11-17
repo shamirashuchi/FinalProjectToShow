@@ -6,9 +6,10 @@ use App\Salon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Pusher\Pusher;
-use Yasser\Agora\RtcTokenBuilder;
+// use Yasser\Agora\RtcTokenBuilder;
+use TaylanUnutmaz\AgoraTokenBuilder\RtcTokenBuilder;
 use Theme;
-
+use Session;
 use App\Models\Event;
 use App\Models\User_Meeting;
 use JobBoardHelper;
@@ -191,25 +192,36 @@ public function getTokenSalon(Request $request, $salon)
     return response()->json(['token' => $token, 'uid' => $uid]);
 }
 
-public function getTheToken()
+public function getTheToken($channelname)
 {
-    $appId = "7ba05910998743e281f6138b7a72405c";
+    $appId = '7ba05910998743e281f6138b7a72405c';
   
-    $appCertificate = env('AGORA_APP_CERTIFICATE');
-    $channelName = "hi";
- 
-    $uid = auth('account')->user()->id;
-    $role = RtcTokenBuilder::RoleAttendee;
+    $appCertificate = 'fde05ab235cb493c9d70c4e96a2e5a2b';
+    // $appId = env('AGORA_APP_ID');
+  
+    // $appCertificate = env('AGORA_APP_CERTIFICATE');
+    $channelName = $channelname;
+//    dd($channelname);
+
+    if (!$appId || !$appCertificate || !$channelName) {
+        // Handle error, perhaps return a message or log the issue
+        throw new \Exception("Missing Agora App ID, Certificate, or Channel Name.");
+    }
+    // $uid = auth('account')->user()->id;
+    // $uid = 123456;
+    $uid = random_int(1, 2**32 - 1);
+    $role = 2;
     
-    $expirationTimeInSeconds = 86400;
+    $expirationTimeInSeconds = 3600;
     $currentTimeStamp = time();
  
     $privilegeExpiredTs = $currentTimeStamp + $expirationTimeInSeconds;
    
-    $token = $this->generateAgoraToken($appId, $appCertificate, $channelName, $uid, $role, $privilegeExpiredTs);
+    // $token = $this->generateAgoraToken($appId, $appCertificate, $channelName, $uid, $role, $privilegeExpiredTs);
     
-   
-   
+    $token = RtcTokenBuilder::buildTokenWithUid($appId, $appCertificate, $channelName, $uid, $role, $privilegeExpiredTs);
+    // $token = $this->generateAgoraToken($appId, $appCertificate, $channelName, $uid, $role, $privilegeExpiredTs);
+    Session::put('rtcToken', $token);
     return Theme::scope(
         'job-board.start2meeting',
         ['auth' => auth()->user(),

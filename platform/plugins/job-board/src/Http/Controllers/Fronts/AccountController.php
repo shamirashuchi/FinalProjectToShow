@@ -136,9 +136,11 @@ class AccountController extends Controller
             ->whereIn('jb_job_skills.id', $favoriteSkills)
             ->distinct() // Add the distinct method here
             ->get();
-            $events = Event::where('superadmin_id', $account->id)
+            $events = Event::whereNull('channelname')
+            ->where('superadmin_id', $account->id) // Add other conditions as necessary
             ->get();
-           
+        
+        
         $resultArray = $queryResult->toArray();
 
         $activities = $this->activityLogRepository->getAllLogs($account->getAuthIdentifier());
@@ -260,17 +262,33 @@ $events = Event::where('superadmin_id', $account->id)
             ->get();
             $account = auth('account')->user();
 
+            $resultArray = $queryResult->toArray();
+
+            $activities = $this->activityLogRepository->getAllLogs($account->getAuthIdentifier());
+ 
+         if($account->type  ==  "consultant"){
             $events = Event::where('consultant_id', $account->id)
                ->whereNotNull('channelname')
                ->get();
+             
+              }
+         elseif($account->type  ==  "job-seeker"){
+            $events = Event::where('user_id', $account->id)
+               ->whereNotNull('channelname')
+               ->get();
+              
+         }
+         elseif($account->type  ==  "superadmin"){
+            $events = Event::where('superadmin_id', $account->id)
+               ->whereNotNull('channelname')
+               ->get();
+              
+         }
 
 
-        $resultArray = $queryResult->toArray();
-
-        $activities = $this->activityLogRepository->getAllLogs($account->getAuthIdentifier());
-
+         return JobBoardHelper::scope('account.meets.index', compact('account', 'resultArray', 'activities','events'));
         // Passing both $account and $resultArray to the view
-        return JobBoardHelper::scope('account.meets.index', compact('account', 'resultArray', 'activities','events'));
+       
     }
 
 
