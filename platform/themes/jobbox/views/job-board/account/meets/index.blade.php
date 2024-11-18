@@ -1,13 +1,15 @@
-<!-- @extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
-
- -->
-
-
 @section('content')
+@extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
+@include(JobBoardHelper::viewPath('dashboard.layouts.menu'))
+
+
+
+
+
 
 
 <style>
-    .main {
+    /* .main {
         margin-top: 54px !important;
     }
     
@@ -20,7 +22,7 @@
     .nav-item {
         max-width: 140px !important;
 
-    }
+    } */
     
     #current-date {
         display: none;
@@ -34,27 +36,34 @@
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Get the content of the 'current-date' and 'event-date' cells
-        const currentDate = document.getElementById('current-date').textContent.trim();
-        const eventDate = document.getElementById('event-date').textContent.trim();
-        
-        // Get the Join Meeting button
-        const joinMeetingButton = document.getElementById('join-meeting-btn');
+   document.addEventListener("DOMContentLoaded", function() {
+    // Get the current date and time
+    const currentDate = document.getElementById('current-date').textContent.trim();
+    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        // Compare the dates
-        if (currentDate === eventDate) {
-            console.log("The dates match!");
-            // Show the Join Meeting button if dates match
-            joinMeetingButton.style.display = 'inline-block';
-        } else {
-            console.log("The dates don't match.");
-            // Optionally hide the button if dates don't match
-            joinMeetingButton.style.display = 'none';
-        }
-    });
+    // Get the specific event's date and start time
+    const eventDate = document.getElementById('event-date').textContent.trim();
+    const eventStartTime = document.getElementById('event-start-time').textContent.trim();
+
+    // Get the Join Meeting button for the specific event
+    const joinMeetingButton = document.getElementById('join-meeting-btn');
+
+    // Compare the current date and time with the event's date and start time
+    if (currentDate === eventDate && currentTime === eventStartTime) {
+        console.log("Date and start time match for the event!");
+        // Enable the Join Meeting button if conditions match
+        joinMeetingButton.style.display = 'inline-block';
+        joinMeetingButton.classList.remove('disabled');
+    } else {
+        console.log("Date and/or start time don't match for the event.");
+        // Optionally hide or disable the button if conditions don't match
+        joinMeetingButton.style.display = 'none';
+    }
+});
+
+
 </script>
-<table class="table table-bordered">
+<table class="table table-bordered" style="margin-top:200px;">
     <thead>
         <tr>
             <th>ID</th>
@@ -68,17 +77,19 @@
     <tbody>
         @foreach ($events as $event)
         <tr>
-            <td>{{ $event->id }}</td>
-            <td id="event-date">{{ $event->date}}</td>
-            <td>{{ $event->day}}</td>
-            <td>{{ \Carbon\Carbon::parse($event->shedulestarttime)->format('h:i A') }}</td>
-            <td>{{ \Carbon\Carbon::parse($event->sheduleendtime)->format('h:i A') }}</td>
-            <td id="current-date">{{ now()->format('Y-m-d') }}</td>
+        <td>{{ $event->id }}</td>
+            <td id="event-date">{{ $event->date }}</td>
+            <td>{{ $event->day }}</td>
+            <td id="event-start-time">{{ \Carbon\Carbon::parse($event->shedulestarttime)->format('H:i') }}</td>
+            <td>{{ \Carbon\Carbon::parse($event->sheduleendtime)->format('H:i') }}</td>
+            <td id="current-date" style="display:none;">{{ now()->format('Y-m-d') }}</td>
             <td>
-                <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}" class="btn btn-primary" id="join-meeting-btn">
+                <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}" 
+                   class="btn btn-primary disabled" 
+                   id="join-meeting-btn" 
+                   style="display:none;">
                     Join Meeting
                 </a>
-                
             </td>
         </tr>
         @endforeach

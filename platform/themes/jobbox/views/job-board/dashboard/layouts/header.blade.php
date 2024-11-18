@@ -258,18 +258,15 @@
 </style>
 @endif -->
 
-<header class="header header-sizefix
-    @if (request()->is('account/home') || request()->is('account/settings') || request()->is('account/educations') || request()->is('account/experiences') || request()->is('account/security') || request()->is('account/consultanthome'))
-        account-home
-    @elseif (request()->is('account/test') || request()->is('account/packages') || request()->is('account/invoices') || request()->is('account/dashboard') || request()->is('account/jobs') || request()->is('account/applicantslist') || request()->is('account/packages/*/subscribe'))
-        account-dashboard
-    @endif
+<header class="header
+   
 ">
-    <div class="container">
 
-        <div class="main-header" style="padding-left: 74px; padding-right: 30px;">
+    <div class="bg-white mt-3 mb-3">
+
+        <div class="d-flex  align-items-center" style="padding-left: 20px; padding-top: 20px; margin-top:-50px;">
             <div class="header-left d-flex justify-content-between">
-                <div class="header-logo">
+                <div class="header-logo justify-content-start py-3">
                     <p class="d-flex" href="#">
                         {{-- @if ($logo = theme_option('logo_employer_dashboard', theme_option('logo')))
                             <img style="max-height:17px;" src="{{ RvMedia::getImageUrl($logo) }}" class="logo"
@@ -279,9 +276,9 @@
                     </p>
                 </div>
             </div>
-            <div class="header-right ">
+            <div class="header-right" style="margin-left:auto;">
 
-                <div class="block-signin d-flex align-items-center gap-3 justify-content-end">
+                <div class="block-signin  d-flex align-items-center justify-content-end">
 
                      {{-- @if ($account->canPost())
                             <ul class="nav">
@@ -376,8 +373,8 @@
 @endif
                         </ul> -->
 
-                    <div class="member-login">
-                        <img alt="" src="{{ $account->avatar_thumb_url }}">
+                    <div class="member-login d-flex">
+                        <img alt="" src="{{ $account->avatar_thumb_url }} " style="width: 50px; height: 50px; border-radius: 50%;">
                         <div class="info-member">
                             <strong class="color-brand-1">{{ $account->name }}</strong>
                             <div class="dropdown" id="accountDropdown">

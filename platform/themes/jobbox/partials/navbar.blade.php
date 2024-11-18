@@ -84,7 +84,7 @@
 
                                         <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userdropdown">
                                             @if ($account->type == "superadmin")
-                                            <li><a class="dropdown-item" href="{{ route('public.account.dashboard') }}">{{ __('Admin Dashboard') }}</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('public.account.adminhome') }}">{{ __('Admin Dashboard') }}</a></li>
 
                                             @elseif ($account->type == "employer")
                                                 <li><a class="dropdown-item" href="{{ route('public.account.dashboard') }}">{{ __('Employer Dashboard') }}</a></li>

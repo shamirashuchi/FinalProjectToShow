@@ -1,4 +1,5 @@
 @extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
+
 <style>
     .giveBorder {
         border: 1px solid #05264E;
@@ -181,8 +182,8 @@
 
     }
 </style>
-@section('content')
 
+@section('content')
     <div class="card-body setwidth">
         <div class=" position-relative row ">
             @foreach ($packages as $package)

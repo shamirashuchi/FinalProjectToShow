@@ -259,6 +259,32 @@
 
         $currentRouteName = Route::currentRouteName();
     @endphp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @elseif($type == 'consultant')
 
 <style>
@@ -349,10 +375,10 @@
                 'routes' => ['public.account.test'],
             ],
             [
-                'key' => 'public.account.packages',
+                'key' => 'public.account.consultant-packages.index',
                 'icon' => 'imgs/page/dashboard/packages.svg',
                 'active_icon' => 'imgs/page/dashboard/packages3-active.svg',
-                'name' => 'Package',
+                'name' => 'Packages',
                 // 'routes' => ['public.account.consultant-packages.index', 'public.account.consultant-packages.create'],
                 'order' => 4,
                 'enabled' => true,
@@ -415,8 +441,84 @@
 
         $currentRouteName = Route::currentRouteName();
     @endphp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @elseif($type == 'job-seeker')
-    @php
+<style>
+       .main-menu li a {
+    color: #66789c;
+    display: block;
+    font-family: var(--primary-font), sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 15px 25px;
+    position: relative;
+    text-decoration: none;
+}
+.main-menu li a.active{
+    background-color: #fff !important;
+    border-radius: 8px;
+    color: #F9A620 !important;
+}
+    .main-menu li a:hover{
+    background-color: #fff !important;
+    border-radius: 8px;
+    color: #F9A620 !important;
+}
+
+    .main-menu li a.active span {
+    color: #F9A620 !important;
+}
+    .main-menu li a:hover span{
+    color: #F9A620 !important;
+}
+.main-menu li a img{
+    display: inline-block;
+    vertical-align: middle;
+}
+.main-menu li a.active img{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    filter: none !important;
+}
+
+.main-menu li a:hover img{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    filter: none !important;
+}
+
+
+
+
+.dropdown.active .dropdown-menu,
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+
+
+</style>
+@php
 
         $menus = collect([
             [
@@ -533,69 +635,7 @@
 
         $currentRouteName = Route::currentRouteName();
     @endphp
-    <style>
-       .main-menu li a {
-    color: #66789c;
-    display: block;
-    font-family: var(--primary-font), sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px;
-    padding: 15px 25px;
-    position: relative;
-    text-decoration: none;
-}
-.main-menu li a.active{
-    background-color: #fff !important;
-    border-radius: 8px;
-    color: #F9A620 !important;
-}
-    .main-menu li a:hover{
-    background-color: #fff !important;
-    border-radius: 8px;
-    color: #F9A620 !important;
-}
 
-    .main-menu li a.active span {
-    color: #F9A620 !important;
-}
-    .main-menu li a:hover span{
-    color: #F9A620 !important;
-}
-.main-menu li a img{
-    display: inline-block;
-    vertical-align: middle;
-}
-.main-menu li a.active img{
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    filter: none !important;
-}
-
-.main-menu li a:hover img{
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    filter: none !important;
-}
-
-
-
-
-.dropdown.active .dropdown-menu,
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-
-
-
-</style>
-
-$currentRouteName = Route::currentRouteName();
-@endphp
 @elseif($type == 'superadmin')
 
 <style>
@@ -655,6 +695,8 @@ $currentRouteName = Route::currentRouteName();
 
 
 </style>
+    
+  
     @php
 
         $menus = collect([
@@ -832,8 +874,9 @@ console.log($(this).hasClass('active'));
     </ul>
 </nav>
 
+<div style="margin-left:55px;">
 @include(JobBoardHelper::viewPath('dashboard.partials.profile-completed'))
-
+</div>
 <script>
     document.querySelectorAll('.menu-item').forEach(item => {
         const img = item.querySelector('.menu-icon');

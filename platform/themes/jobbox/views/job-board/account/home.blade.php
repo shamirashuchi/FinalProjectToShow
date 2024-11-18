@@ -4,7 +4,7 @@
 @section('content')
 <div class="row">
     <div class="col-lg-4">
-        <div class="card-style-1 hover-up">
+        <div class="card-style-1 hover-up bg-white p-2 d-flex justify-content-start align-items-center rounded">
             <div class="card-image">
             <img src="{{ Theme::asset()->url('imgs/page/dashboard/computer.svg') }}" alt="Total Jobs">
             </div>
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card-style-1 hover-up">
+        <div class="card-style-1 hover-up  bg-white p-2 d-flex justify-content-start align-items-center rounded">
             <div class="card-image">
             <img src="{{ Theme::asset()->url('imgs/page/dashboard/computer.svg') }}" alt="Total Jobs">
             </div>
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card-style-1 hover-up">
+        <div class="card-style-1 hover-up  bg-white p-2 d-flex justify-content-start align-items-center rounded">
             <div class="card-image">
             <img src="{{ Theme::asset()->url('imgs/page/dashboard/computer.svg') }}" alt="Total Jobs">
             </div>
@@ -53,12 +53,13 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6">
-        <div class="panel-white">
-            <header class="panel-head">
+    <div class="col-lg-6 ">
+        <div class="panel-white bg-white mt-5  rounded" style="padding-top:20px;padding-bottom:20px;">
+            <header class="panel-head ps-2">
                 <h5>New Jobs</h5>
             </header>
-            <article class="panel-body">
+            <hr></hr>
+            <article class="panel-body ps-2">
                 <div class="new-member-list">
                     <a href="{{ url('/jobs') }}" class="text-muted">0 new Jobs</a>
                 </div>
@@ -66,11 +67,12 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="panel-white">
-            <header class="panel-head">
+    <div class="panel-white bg-white mt-5  rounded" style="padding-top:20px;padding-bottom:10px;">
+            <header class="panel-head ps-2">
                 <h5>Recent activities</h5>
             </header>
-            <article class="panel-body">
+            <hr></hr>
+            <article class="panel-body  ps-2">
                 <ul class="verti-timeline list-unstyled font-sm">
                     @forelse ($activities as $activity)
                         <li class="event-list">
@@ -98,15 +100,15 @@
         </div>
     </div>
 </div>
-<div class="panel-white">
-    <header class="panel-head">
+<div class="panel-white bg-white mt-5 p-2  rounded">
+    <header class="panel-head" style="padding-top:30px;">
         <h4>Matched Jobs</h4>
     </header>
-    <div class="panel-body">
+    <div class="panel-body" style="padding-top:30px; padding-bottom:30px;">
         <div class="table-responsive">
-            <table class="table align-middle table-nowrap mb-0">
+            <table class="table align-middle table-nowrap mb-0" >
 
-                <thead class="table-light">
+                <thead class="table-light ms-5">
                     <tr>
                         <th class="align-middle" scope="col">Job Title</th>
                         <th class="align-middle" scope="col">Company Name</th>

@@ -1,26 +1,7 @@
-
-<!-- @extends(JobBoardHelper::viewPath('dashboard.layouts.master')) -->
-<!-- <style>
-    .main {
-        margin-top: 54px !important;
-    }
-    
-    .btn-expanded {
-       
-        top: 0px !important;
-
-    }
-    
-    .nav-item {
-        max-width: 140px !important;
-
-    }
-    
-    
-    
-</style> -->
 @section('content')
-<table class="table table-bordered">
+@extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
+@include(JobBoardHelper::viewPath('dashboard.layouts.menu'))
+<table class="table table-bordered" style="margin-top:200px;">
     <thead>
         <tr>
             <th>ID</th>

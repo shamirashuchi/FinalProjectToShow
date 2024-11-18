@@ -948,7 +948,21 @@ class PublicController extends Controller
             $consultantdetails->avatar_url = RvMedia::url('path/to/default-avatar.png');
         }
        
-        $event = Event::where('consultant_id', $id)->get();
+        $event = Event::where('consultant_id', $id)
+        ->where('date', '>=', now()->startOfDay())  // Ensure the event date is today or in the future
+        ->when(now()->isToday(), function ($query) {
+            // Convert the current time to 12-hour AM/PM format (e.g., 3:55 PM)
+            $currentTime = now('America/New_York')->format('g:i A');
+            // Compare start_time (stored as 12-hour AM/PM) with the current time
+            $query->where('start_time', '>=', $currentTime); 
+        })
+        ->get();
+       
+
+        $currentTime = now('America/New_York')->format('g:i A');
+       
+
+
        
         return Theme::scope(
             'job-board.consultantdetails',

@@ -1,7 +1,7 @@
 @extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
 
 @section('content')
-
+<!-- 
 <style>
     .main {
         margin-top: 54px !important;
@@ -20,7 +20,7 @@
     
     
     
-</style>
+</style> -->
 <form action="{{ route('public.account.meets.create.store') }}" method="POST">
     <div class="row">
         <div class="col-12">
@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label class="font-sm color-text-mutted mb-10" for="date">{{ __('Date') }}</label>
                         <input type="date" class="form-control @error('date') is-invalid @enderror" id="date"
-                               name="date" value="{{ old('date') }}" onchange="updateDay()" />
+                               name="date" value="{{ old('date') }}" min="{{ now()->toDateString() }}"  onchange="updateDay()" />
                         @error('date')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -122,6 +122,57 @@
         }
     }
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateInput = document.getElementById('date');
+        const timeInput = document.getElementById('start_time');
+
+        // Helper function to compare time with the current time
+        function isTimeValid(selectedDate, selectedTime) {
+            const currentDate = new Date();
+            const [selectedHours, selectedMinutes] = selectedTime.split(':').map(num => parseInt(num, 10));
+            const selectedDateTime = new Date(selectedDate);
+            selectedDateTime.setHours(selectedHours);
+            selectedDateTime.setMinutes(selectedMinutes);
+
+            // If the selected date is today, ensure time is after the current time
+            if (selectedDate === currentDate.toISOString().split('T')[0] && selectedDateTime < currentDate) {
+                alert('You cannot select a time in the past!');
+                timeInput.value = ''; // Reset the time input field
+                return false;
+            }
+
+            // If the selected date is in the past, block the date selection
+            if (selectedDate < currentDate.toISOString().split('T')[0]) {
+                alert('You cannot select a past date!');
+                dateInput.value = ''; // Reset the date input field
+                return false;
+            }
+
+            return true;
+        }
+
+        // Event listener for date change
+        dateInput.addEventListener('change', function () {
+            const selectedDate = dateInput.value;
+            const selectedTime = timeInput.value;
+            if (selectedTime) {
+                isTimeValid(selectedDate, selectedTime);
+            }
+        });
+
+        // Event listener for time change
+        timeInput.addEventListener('change', function () {
+            const selectedDate = dateInput.value;
+            const selectedTime = timeInput.value;
+            if (selectedDate) {
+                isTimeValid(selectedDate, selectedTime);
+            }
+        });
+    });
+</script>
+
+
 
 
 @endsection

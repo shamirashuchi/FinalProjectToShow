@@ -269,18 +269,21 @@ $events = Event::where('superadmin_id', $account->id)
          if($account->type  ==  "consultant"){
             $events = Event::where('consultant_id', $account->id)
                ->whereNotNull('channelname')
+               ->where('date', '>=', now()->startOfDay())
                ->get();
              
               }
          elseif($account->type  ==  "job-seeker"){
             $events = Event::where('user_id', $account->id)
                ->whereNotNull('channelname')
+               ->where('date', '>=', now()->startOfDay())
                ->get();
               
          }
          elseif($account->type  ==  "superadmin"){
             $events = Event::where('superadmin_id', $account->id)
                ->whereNotNull('channelname')
+               ->where('date', '>=', now()->startOfDay())
                ->get();
               
          }
