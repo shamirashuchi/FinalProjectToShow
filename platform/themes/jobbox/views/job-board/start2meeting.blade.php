@@ -309,7 +309,7 @@
             },
             body: JSON.stringify({
                 channel_name: CHANNEL,  // This is the channel name
-                sender_id: USER_ID,          // Sender's unique ID
+                sender_id: uid,          // Sender's unique ID
                 receiver_id: RECEIVER_ID,    // Receiver's unique ID (optional)
                 superadmin_id: SUPERADMIN_ID, // Superadmin ID (optional)
                 message: message,            // The message content

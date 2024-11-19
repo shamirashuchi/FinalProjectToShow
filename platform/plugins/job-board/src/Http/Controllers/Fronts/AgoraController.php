@@ -208,9 +208,9 @@ public function getTheToken($channelname)
         // Handle error, perhaps return a message or log the issue
         throw new \Exception("Missing Agora App ID, Certificate, or Channel Name.");
     }
-    // $uid = auth('account')->user()->id;
+    $uid = auth('account')->user()->id;
     // $uid = 123456;
-    $uid = random_int(1, 2**32 - 1);
+    // $uid = random_int(1, 2**32 - 1);
     $role = 2;
     
     $expirationTimeInSeconds = 3600;
