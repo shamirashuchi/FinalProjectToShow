@@ -1,6 +1,19 @@
-@section('content')
+
 @extends(JobBoardHelper::viewPath('dashboard.layouts.master'))
-@include(JobBoardHelper::viewPath('dashboard.layouts.menu'))
+@section('content')
+@php
+        $account = auth('account')->user();
+    @endphp
+
+    @if ($account->type == 'superadmin')
+        @include(JobBoardHelper::viewPath('dashboard.layouts.menu'))
+    @elseif ($account->type == 'job-seeker')
+        {{-- Add job-seeker-specific content here --}}
+    @elseif ($account->type == 'consultant')
+        {{-- Add consultant-specific content here --}}
+    @elseif ($account->type == 'employer')
+        {{-- Add employer-specific content here --}}
+    @endif
 
 
 
@@ -83,14 +96,22 @@
             <td id="event-start-time">{{ \Carbon\Carbon::parse($event->shedulestarttime)->format('H:i') }}</td>
             <td>{{ \Carbon\Carbon::parse($event->sheduleendtime)->format('H:i') }}</td>
             <td id="current-date" style="display:none;">{{ now()->format('Y-m-d') }}</td>
-            <td>
+            <!-- <td>
                 <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}" 
                    class="btn btn-primary disabled" 
                    id="join-meeting-btn" 
                    style="display:none;">
                     Join Meeting
                 </a>
+            </td> -->
+            <td>
+                <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}" 
+                   class="btn btn-primary">
+                  
+                    Join Meeting
+                </a>
             </td>
+            
         </tr>
         @endforeach
     </tbody>

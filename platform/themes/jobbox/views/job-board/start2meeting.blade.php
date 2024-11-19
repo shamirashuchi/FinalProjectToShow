@@ -8,32 +8,112 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('main.css') }}">
 
     <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
+    <!-- For build message -->
+    <!-- <script src="https://cdn.agora.com/sdk/javascript/agora-rtm.2.1.1.js"></script> -->
+    <script src="{{ asset('js/agora-rtm.js') }}"></script>
+    <style>
+          /* Popup styles */
+          .chat-popup {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 200px;
+            right: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            width: 300px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .chat-popup-header {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .chat-popup-body {
+            padding: 10px;
+        }
+
+        .chat-popup-footer {
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-popup-footer input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-popup-footer button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-popup-footer button:hover {
+            background-color: #0056b3;
+        }
+
+        #close-chat {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+     <!-- For build message -->
 </head>
 <body>
     <button id="join-btn">Join Stream</button>
+            <div id="stream-wrapper" >
+                <div id="video-streams"></div>
 
-    <div id="stream-wrapper">
-        <div id="video-streams"></div>
-
-        <div id="stream-controls" style="display:none;">
-            <button id="leave-btn">Leave Stream</button>
-            <button id="mic-btn">Mic On</button>
-            <button id="camera-btn">Camera On</button>
-        </div>
-    </div>
-
+                <div id="stream-controls" style="display:none;">
+                    <button id="leave-btn">Leave Stream</button>
+                    <button id="mic-btn">Mic On</button>
+                    <button id="camera-btn">Camera On</button>
+                    <button id="open-chat">Open Chat</button>
+                                    <div class="chat-popup" id="chat-popup">
+                        <div class="chat-popup-header">
+                            Chat
+                            <span id="close-chat">×</span>
+                        </div>
+                        <div class="chat-popup-body" id="messages">
+                            <!-- Messages will appear here -->
+                        </div>
+                        <div class="chat-popup-footer">
+                            <input type="text" id="message" placeholder="Type your message..." />
+                            <button id="send-message">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+             <!-- For build message -->
     <script>
+        // credentials
         const APP_ID = "7ba05910998743e281f6138b7a72405c";
-        
-        // const TOKEN = "007eJxTYDCc46QnF7j14+Ev22UW9l+Wmb3Odd6hd9GvSw6I3b8m8e+RAoN5UqKBqaWhgaWlhbmJcaqRhWGamaGxRZJ5ormRiYFp8oN2y/SGQEYGsXOJrIwMEAjiczGU+5aWB7qZV4SlMDAAAJ90IuA=";
         const CHANNEL = @json($channelName);
-        // const TOKEN = @json($token);
-        // Access the token from the session
         const TOKEN = @json(Session::get('rtcToken'));
-
         console.log("Token received from server:", TOKEN);
+        const uid = @json($uid);
 
-        const uid = @json($uid);  // UID is passed correctly
+
+        // video call
         const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 
         let localTracks = [];
@@ -161,6 +241,94 @@
                 e.target.style.backgroundColor = '#EE4B2B';
             }
         };
+      
+
+
+
+        // For build message
+        const openChatButton = document.getElementById('open-chat');
+        const chatPopup = document.getElementById('chat-popup');
+        const closeChatButton = document.getElementById('close-chat');
+        const sendMessageButton = document.getElementById('send-message');
+        const messageInput = document.getElementById('message');
+        const messagesDiv = document.getElementById('messages');
+
+
+
+        let initAgoraRTM = async () =>{
+            let client = await AgoraRTM.createInstance(APP_ID)
+            await client.login({uid,TOKEN})
+
+            const channel = await client.createChannel(CHANNEL)
+            await channel.join()
+
+            onsole.log('Joined channel:', CHANNEL_NAME);
+
+            // Listen for incoming messages
+            channel.on('ChannelMessage', (message, memberId) => {
+                const messageElement = document.createElement('div');
+                messageElement.textContent = `${memberId}: ${message.text}`;
+                messagesDiv.appendChild(messageElement);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to latest message
+            });
+        }
+
+
+
+            // chat pop up appear and close
+        openChatButton.addEventListener('click', () => {
+            chatPopup.style.display = 'block';
+        });
+
+        closeChatButton.addEventListener('click', () => {
+            chatPopup.style.display = 'none';
+        });
+
+        // Send Message
+        sendMessageButton.addEventListener('click', async () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                await channel.sendMessage({ text: message });
+                const messageElement = document.createElement('div');
+                messageElement.textContent = `You: ${message}`;
+                messagesDiv.appendChild(messageElement);
+                messageInput.value = ''; // Clear the input
+                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to latest message
+            }
+        });
+
+
+         // Send message to the server
+         fetch('/chat-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel CSRF token
+            },
+            body: JSON.stringify({
+                channel_name: CHANNEL_NAME,
+                sender_id: USER_ID,
+                message: message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Message saved to database!');
+            } else {
+                console.error('Error saving message:', data);
+            }
+        })
+        .catch(error => console.error('Fetch error:', error));
+
+        // Clear the input
+        messageInput.value = '';
+    
+
+
+            // Start RTM Client
+            initAgoraRTM().catch(console.error);
+
 
         document.getElementById('join-btn').addEventListener('click', joinStream);
         document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream);

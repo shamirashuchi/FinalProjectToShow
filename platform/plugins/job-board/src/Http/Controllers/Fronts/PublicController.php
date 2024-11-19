@@ -953,7 +953,7 @@ class PublicController extends Controller
         ->when(now()->isToday(), function ($query) {
             // Convert the current time to 12-hour AM/PM format (e.g., 3:55 PM)
             $currentTime = now('America/New_York')->format('g:i A');
-            // Compare start_time (stored as 12-hour AM/PM) with the current time
+            // Compare start_time (stored as 12-hour AM/PM) with the current timeph
             $query->where('start_time', '>=', $currentTime); 
         })
         ->get();
