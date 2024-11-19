@@ -113,15 +113,16 @@
         const TOKEN = @json(Session::get('rtcToken'));
         console.log("Token received from server:", TOKEN);
         const uid = @json($uid);
+        console.log("user_id",uid);
        
 
         let RECEIVER_ID; 
 
             // Check user role and set RECEIVER_ID
             if(uid === @json($event->user_id)) {
-                RECEIVER_ID = @json($event->consultant_id);  // If the current user is the event user, set consultant_id as receiver
+                RECEIVER_ID = @json($event->consultant_id);
             } else if(uid === @json($event->consultant_id)) {
-                RECEIVER_ID = @json($event->user_id);  // If the current user is the event consultant, set user_id as receiver
+                RECEIVER_ID = @json($event->user_id);
             }
 
             console.log("Receiver ID:", RECEIVER_ID);
@@ -274,21 +275,44 @@
 
         // for "agora-rtm-sdk": "^2.2.0", how to initialize
         let initAgoraRTM = async () =>{
-            let client = await AgoraRTM.RtmClient(APP_ID)
-            await client.login({uid,TOKEN})
+            let uid = String(Math.floor(Math.random() * 232))
+           
+            // Create a client instance 
+            let TOKEN = @json(Session::get('rtcToken'));
+            const signalingEngine = new AgoraRTM.RTM(APP_ID, uid,TOKEN );
+                        // Listen for events
+            signalingEngine.addEventListener('message', (eventArgs) => {
+            console.log(`${eventArgs.publisher}: ${eventArgs.message}`);
+            })
 
-            const channel = await client.createChannel(CHANNEL)
-            await channel.join()
+            // Login 
+            try { 
+            await signalingEngine.login(); 
+            } catch (err) {
+            console.log({ err }, 'error occurs at login.');
+            }
 
-            console.log('Joined channel:', CHANNEL);
+            // Send channel message
+            try { 
+            await signalingEngine.publish('channel', 'hello world');
+            } catch (err) {
+            console.log({ err }, 'error occurs at publish message');
+            }
+            // let client = await AgoraRTM.RtmClient(APP_ID)
+            // await client.login({uid,TOKEN})
 
-            // Listen for incoming messages
-            channel.on('ChannelMessage', (message, memberId) => {
-                const messageElement = document.createElement('div');
-                messageElement.textContent = `${memberId}: ${message.text}`;
-                messagesDiv.appendChild(messageElement);
-                messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to latest message
-            });
+            // const channel = await client.createChannel(CHANNEL)
+            // await channel.join()
+
+            // console.log('Joined channel:', CHANNEL);
+
+            // // Listen for incoming messages
+            // channel.on('ChannelMessage', (message, memberId) => {
+            //     const messageElement = document.createElement('div');
+            //     messageElement.textContent = `${memberId}: ${message.text}`;
+            //     messagesDiv.appendChild(messageElement);
+            //     messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to latest message
+            // });
         }
 
 
