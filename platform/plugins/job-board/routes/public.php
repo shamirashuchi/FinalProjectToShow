@@ -90,6 +90,7 @@ Route::middleware(['web'])->group(function () {
     Route::get('consultantdetails/{id}/meeting', [PublicController::class, 'consultantmeeting'])->name('consultantmeeting');
     Route::get('videos', [PublicController::class, 'videos'])->name('videos');
     Route::get('/get-token/{channelname}', [AgoraController::class, 'getTheToken'])->name('getToken');
+    Route::get('/chat-message', [AgoraController::class, 'messageSystem'])->name('messageSystem');
     Route::get('/createMeeting', [AgoraController::class, 'createMeeting'])->name('createMeeting');
     Route::post('consultant-reviewed/{id}', [PublicController::class, 'consultantReviewed'])->name('consultant.reviewed');
     Route::delete('consultant-review/{consultantReview}', [PublicController::class, 'consultantReviewDelete'])->name('consultant.review.delete');

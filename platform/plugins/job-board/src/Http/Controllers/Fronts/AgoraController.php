@@ -11,6 +11,7 @@ use TaylanUnutmaz\AgoraTokenBuilder\RtcTokenBuilder;
 use Theme;
 use Session;
 use App\Models\Event;
+use Botble\JobBoard\Models\MessageSystem;
 use App\Models\User_Meeting;
 use JobBoardHelper;
 class AgoraController extends Controller
@@ -231,6 +232,42 @@ public function getTheToken($channelname)
         'plugins/job-board::themes.start2meeting'
     )->render();
 }
+
+
+
+// ==================================For message System============================
+public function messageSystem(Request $request)
+{
+    // Validate the incoming data
+    $validated = $request->validate([
+        'channel_name' => 'required|string',
+        'sender_id' => 'required|string',
+        'receiver_id' => 'nullable|string',
+        'superadmin_id' => 'nullable|string',
+        'message' => 'required|string',
+        'event_id' => 'nullable|integer',
+        'schedule_start_time' => 'nullable|date',
+        'schedule_end_time' => 'nullable|date',
+        'flag' => 'nullable|boolean',
+    ]);
+
+    // Create the new message record in the database
+    $message = MessageSystem::create([
+        'channel_name' => $validated['channel_name'],
+        'sender_id' => $validated['sender_id'],
+        'receiver_id' => $validated['receiver_id'] ?? null,
+        'superadmin_id' => $validated['superadmin_id'] ?? null,
+        'message' => $validated['message'],
+        'event_id' => $validated['event_id'] ?? null,
+        'schedule_start_time' => $validated['schedule_start_time'] ?? null,
+        'schedule_end_time' => $validated['schedule_end_time'] ?? null,
+        'flag' => $validated['flag'] ?? 0,
+    ]);
+
+    // Return a success response
+    return response()->json(['success' => true, 'message' => $message]);
+}
+
 
 private function notifyClients($channel, $event, $data)
 {

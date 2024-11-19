@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Ivy Streams</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('main.css') }}">
 
     <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
@@ -262,7 +264,7 @@
             const channel = await client.createChannel(CHANNEL)
             await channel.join()
 
-            onsole.log('Joined channel:', CHANNEL_NAME);
+            console.log('Joined channel:', CHANNEL);
 
             // Listen for incoming messages
             channel.on('ChannelMessage', (message, memberId) => {
@@ -306,9 +308,14 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel CSRF token
             },
             body: JSON.stringify({
-                channel_name: CHANNEL_NAME,
-                sender_id: USER_ID,
-                message: message
+                channel_name: CHANNEL,  // This is the channel name
+                sender_id: USER_ID,          // Sender's unique ID
+                receiver_id: RECEIVER_ID,    // Receiver's unique ID (optional)
+                superadmin_id: SUPERADMIN_ID, // Superadmin ID (optional)
+                message: message,            // The message content
+                event_id: EVENT_ID,          // Event ID (optional)
+                schedule_start_time: START_TIME, // Start time (optional)
+                schedule_end_time: END_TIME   // End time (optional)
             })
         })
         .then(response => response.json())
