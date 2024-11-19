@@ -105,12 +105,13 @@
                 </a>
             </td> -->
             <td>
-                <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}" 
-                   class="btn btn-primary">
-                  
-                    Join Meeting
+                <a href="{{ route('getToken', ['channelname' => $event->channelname]) }}?event_id={{ $event->id }}" 
+                class="btn btn-primary">
+                Join Meeting
                 </a>
             </td>
+
+
             
         </tr>
         @endforeach

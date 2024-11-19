@@ -113,7 +113,23 @@
         const TOKEN = @json(Session::get('rtcToken'));
         console.log("Token received from server:", TOKEN);
         const uid = @json($uid);
+       
 
+        let RECEIVER_ID; 
+
+            // Check user role and set RECEIVER_ID
+            if(uid === @json($event->user_id)) {
+                RECEIVER_ID = @json($event->consultant_id);  // If the current user is the event user, set consultant_id as receiver
+            } else if(uid === @json($event->consultant_id)) {
+                RECEIVER_ID = @json($event->user_id);  // If the current user is the event consultant, set user_id as receiver
+            }
+
+            console.log("Receiver ID:", RECEIVER_ID);
+            const SUPERADMIN_ID = @json($event->superadmin_id);
+            console.log("Superadmin ID:", SUPERADMIN_ID);
+            const EVENT_ID = @json($event->id);
+            const START_TIME =  @json($event->shedulestarttime);
+            const END_TIME =  @json($event->sheduleendtime);
 
         // video call
         const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -256,9 +272,9 @@
         const messagesDiv = document.getElementById('messages');
 
 
-
+        // for "agora-rtm-sdk": "^2.2.0", how to initialize
         let initAgoraRTM = async () =>{
-            let client = await AgoraRTM.createInstance(APP_ID)
+            let client = await AgoraRTM.RtmClient(APP_ID)
             await client.login({uid,TOKEN})
 
             const channel = await client.createChannel(CHANNEL)
@@ -308,14 +324,14 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel CSRF token
             },
             body: JSON.stringify({
-                channel_name: CHANNEL,  // This is the channel name
-                sender_id: uid,          // Sender's unique ID
-                receiver_id: RECEIVER_ID,    // Receiver's unique ID (optional)
-                superadmin_id: SUPERADMIN_ID, // Superadmin ID (optional)
-                message: message,            // The message content
-                event_id: EVENT_ID,          // Event ID (optional)
-                schedule_start_time: START_TIME, // Start time (optional)
-                schedule_end_time: END_TIME   // End time (optional)
+                channel_name: CHANNEL,
+                sender_id: uid,          
+                receiver_id: RECEIVER_ID, 
+                superadmin_id: SUPERADMIN_ID, 
+                message: message,          
+                event_id: EVENT_ID,         
+                schedule_start_time: START_TIME, 
+                schedule_end_time: END_TIME  
             })
         })
         .then(response => response.json())

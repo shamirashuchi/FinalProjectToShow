@@ -195,6 +195,9 @@ public function getTokenSalon(Request $request, $salon)
 
 public function getTheToken($channelname)
 {
+
+    $eventId = request()->query('event_id');
+    $event = Event::findOrFail($eventId);
     $appId = '7ba05910998743e281f6138b7a72405c';
   
     $appCertificate = 'fde05ab235cb493c9d70c4e96a2e5a2b';
@@ -228,7 +231,8 @@ public function getTheToken($channelname)
         ['auth' => auth()->user(),
     'token' => $token,
     'channelName' =>$channelName,
-    'uid' => $uid],
+    'uid' => $uid,
+    'event' => $event,],
         'plugins/job-board::themes.start2meeting'
     )->render();
 }
